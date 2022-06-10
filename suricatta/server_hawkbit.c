@@ -496,8 +496,10 @@ server_op_res_t server_set_polling_interval_json(json_object *json_root)
 	if (server_hawkbit.update_state == STATE_WAIT)
 		polling_interval /= 10;
 
-	server_hawkbit.polling_interval =
-	    polling_interval == 0 ? CHANNEL_DEFAULT_POLLING_INTERVAL : polling_interval;
+	if (polling_interval != 0) {
+	    server_hawkbit.polling_interval = polling_interval;
+	}
+
 	DEBUG("Set polling interval to %ds as announced by server.",
 	      server_hawkbit.polling_interval);
 	return SERVER_OK;
